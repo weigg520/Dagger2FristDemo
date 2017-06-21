@@ -3,13 +3,16 @@ package weizhengzhou.top.dagger2fristdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
+import dagger.Lazy;
 import weizhengzhou.top.dagger2fristdemo.Demo.Cloth;
 import weizhengzhou.top.dagger2fristdemo.Demo.ClothHandler;
 import weizhengzhou.top.dagger2fristdemo.Demo.Clothes;
@@ -18,12 +21,13 @@ import weizhengzhou.top.dagger2fristdemo.Demo.Qualifier.RedCloth;
 import weizhengzhou.top.dagger2fristdemo.Demo.Shop;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private TextView mTextView;
     private Button mButton;
     @Inject
-    Cloth mCloth;
+    Lazy<Cloth> mCloth;
     @Inject
-    Shop mShop;
+    Provider<Shop> mShop;
     @Inject
     Clothes mClothes;
     @Inject
@@ -53,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
         MyApplication application = (MyApplication)getApplication();
         application.getBaseComponent().getSubMainComponent(new MainModule()).inject(this);
         mTextView.setText(redCloth + "做" + mClothHandler.handle(redCloth) + "ClothHandler类地址" + mClothHandler);
+        Log.d(TAG, "inject done ...");
+        Log.d(TAG, "1 use redCloth instance ..");
+        Log.d(TAG, "redCloth:" + mCloth.get());
+        Log.d(TAG, "2 use redCloth instance ..");
+        Log.d(TAG, "redCloth:" + mCloth.get());
+        Log.d(TAG, "1 use shoe instance ..");
+        Log.d(TAG, "shoe:" + mShop.get());
+        Log.d(TAG, "2 use shoe instance ..");
+        Log.d(TAG, "shoe:" + mShop.get());
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

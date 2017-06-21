@@ -1,6 +1,8 @@
 package weizhengzhou.top.dagger2fristdemo.Demo.Module;
 
 
+import android.util.Log;
+
 import javax.inject.Named;
 
 import dagger.Module;
@@ -9,6 +11,7 @@ import weizhengzhou.top.dagger2fristdemo.Demo.Cloth;
 import weizhengzhou.top.dagger2fristdemo.Demo.Clothes;
 import weizhengzhou.top.dagger2fristdemo.Demo.Qualifier.RedCloth;
 import weizhengzhou.top.dagger2fristdemo.Demo.Scope.PerActivity;
+import weizhengzhou.top.dagger2fristdemo.Demo.Shop;
 
 /**
  * Created by 75213 on 2017/6/20.
@@ -22,9 +25,11 @@ import weizhengzhou.top.dagger2fristdemo.Demo.Scope.PerActivity;
 
 @Module
 public class MainModule {
+    private static final String TAG = "MainModule";
     @PerActivity
     @Provides
     public Cloth getColor(){
+        Log.d(TAG, "getRedCloth: ...");
         Cloth cloth = new Cloth();
         cloth.setColor("红色");
         return cloth;
@@ -49,6 +54,13 @@ public class MainModule {
     @Provides
     public Clothes getClothes(Cloth cloth){
         return new Clothes(cloth);
+    }
+
+    @PerActivity
+    @Provides
+    public Shop getShop(){
+        Log.d(TAG, "getShoe: ...");
+        return new Shop();
     }
 
 }
